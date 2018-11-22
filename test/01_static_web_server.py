@@ -31,6 +31,7 @@ class HTTPServer(object):
             print(line)
         request_start_line = request_line[0]
         file_name = re.match(r"\w+ +(/[^ ]*) ", request_start_line.decode("utf-8")).group(1)
+        print("file_name:"+file_name)
         if "/" == file_name:
             file_name = "/index.html"
         try:

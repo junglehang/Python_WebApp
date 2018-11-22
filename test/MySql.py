@@ -58,16 +58,17 @@ def delete(cur, db):
 
 
 def set_data(cur,db):
+    #插入数据
     username = ["timor", "rita", "leesin", "ruler"]
     password = []
     phone = []
     email = []
+    sql = """insert into user(username,password,phone,email) values 
+                              ('%s','%s','%s','%s')"""
     for i in range(4):
         password.append("123456"+str(i))
         phone.append("987654"+str(i))
         email.append("manlyhang@163.com")
-        sql = """insert into user(username,password,phone,email) values 
-                           ('%s','%s','%s',"%s")"""
         try:
             cur.execute(sql %(username[i],password[i],phone[i],email[i]))
             db.commit()
@@ -76,7 +77,13 @@ def set_data(cur,db):
             print(e)
 
 
-
+def create_table(cur, db):
+    #创建表
+    sql = """create table if not EXISTS money(userid int(11) PRIMARY KEY ,username varchar(20))"""
+    try:
+        cur.execute(sql)
+    except Exception as e:
+        raise e
 
 def main():
     # 打开数据库连接
@@ -84,7 +91,8 @@ def main():
                          password="yh981114", db="test", port=3306)
     #获取游标
     cur = db.cursor()
-    set_data(cur,db)
+    create_table(cur,db)
+    #set_data(cur,db)
     #查询
     select(cur, db)
     #插入
